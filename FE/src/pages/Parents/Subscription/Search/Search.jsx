@@ -1,4 +1,4 @@
-import { useReducer, useState } from "react";
+import React, { useReducer, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./Search.module.scss";
 import { Header } from "@/components/Header/Header";
@@ -8,6 +8,7 @@ import { DayList } from "./DayList/DayList";
 import { TimeList } from "./TimeList/TimeList";
 import { useModal } from "@/hooks/useModal";
 import { MapModal } from "./MapModal/MapModal";
+import { createKsmodal, useModal as useToast } from "react-ksmodal";
 
 export default function Search() {
     const navigate = useNavigate();
@@ -22,6 +23,13 @@ export default function Search() {
     });
 
     const { isVisible, open: openModal, close: closeModal } = useModal();
+
+    const AddToast = createKsmodal();
+    const DeleteToast = createKsmodal();
+    const { isVisible: isAddToastVisible, showModal: showAddToast } =
+        useToast();
+    const { isVisible: isDeleteToastVisible, showModal: showDeleteToast } =
+        useToast();
 
     const handleOpenModal = ({ target: { name } }) => {
         setMapType(name);
@@ -38,11 +46,13 @@ export default function Search() {
                 type: SCHEDULE_ACTION_TYPE.DELETE_DAY,
                 payload: { day }
             });
+            showDeleteToast(1000);
         } else {
             dispatchSchedule({
                 type: SCHEDULE_ACTION_TYPE.ADD_DAY,
                 payload: { day, time: DEFAULT_TIME }
             });
+            showAddToast(1000);
         }
     };
 
@@ -69,39 +79,47 @@ export default function Search() {
     };
 
     return (
-        <>
-            <main className={styles.container}>
-                <Header title="픽업 신청" to="/" />
-                <section className={styles.contents}>
-                    <AddressForm
-                        handleOpenModal={handleOpenModal}
-                        location={location}
-                    />
-                    <DayList
-                        schedule={schedule}
-                        handleWeekClick={handleWeekClick}
-                    />
-                    <TimeList
-                        schedule={schedule}
-                        handleTimeChange={handleTimeChange}
-                    />
-                </section>
-                <Footer
-                    text="확인"
-                    onClick={() =>
-                        handleSubmit(isButtonActive, location, schedule)
-                    }
-                    isButtonDisabled={!isButtonActive}
-                />
-                <MapModal
-                    isVisible={isVisible}
-                    onClose={closeModal}
-                    handleLocationSelect={handleLocationSelect}
-                    mapType={mapType}
+        <main className={styles.container}>
+            <Header title="픽업 신청" to="/" />
+            <section className={styles.contents}>
+                <AddressForm
+                    handleOpenModal={handleOpenModal}
                     location={location}
                 />
-            </main>
-        </>
+                <DayList
+                    schedule={schedule}
+                    handleWeekClick={handleWeekClick}
+                />
+                <TimeList
+                    schedule={schedule}
+                    handleTimeChange={handleTimeChange}
+                />
+            </section>
+            <Footer
+                text="확인"
+                onClick={() => handleSubmit(isButtonActive, location, schedule)}
+                isButtonDisabled={!isButtonActive}
+            />
+            <MapModal
+                isVisible={isVisible}
+                onClose={closeModal}
+                handleLocationSelect={handleLocationSelect}
+                mapType={mapType}
+                location={location}
+            />
+            <AddToast
+                isVisible={isAddToastVisible}
+                duration={1000}
+                message={"일정이 추가되었습니다."}
+                backgroundColor="rgba(0,0,0,0.7)"
+            />
+            <DeleteToast
+                isVisible={isDeleteToastVisible}
+                duration={1000}
+                message={"일정이 삭제되었습니다."}
+                backgroundColor="rgba(0,0,0,0.7)"
+            />
+        </main>
     );
 }
 
