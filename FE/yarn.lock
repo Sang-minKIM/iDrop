@@ -4409,6 +4409,11 @@ react-is@^16.13.1:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
   integrity sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==
 
+react-ksmodal@^1.0.6:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/react-ksmodal/-/react-ksmodal-1.0.6.tgz#ade5d8586fbce10fe2008f3804b16ded15f2fd61"
+  integrity sha512-7+QkBHGGRnToWeuIwSkSlO5nLmD95UwhN4Zh7uOJw7Ls7/uVsRnTHbK8yk7UoCd+kTlviV1oweU2uap1mqB4ig==
+
 react-naver-maps@^0.1.3:
   version "0.1.3"
   resolved "https://registry.yarnpkg.com/react-naver-maps/-/react-naver-maps-0.1.3.tgz#242da4556799e7a854cc0fe5f061c188919f32c7"
