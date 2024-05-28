@@ -12,6 +12,59 @@
 
 - 더불어 실시간 위치 확인 및 승하차 알림 기능을 통해 부모님들이 언제든지 아이의 현재 위치를 확인하고 안심할 수 있도록 합니다.
 
+## 😁 김상민 담당 모듈
+### 1. 부모 사용자 화면 담당
+- 구독 정보 입력: 픽업 요일, 픽업 시간, 출발지, 목적지(naver 지도 이용), 상세 주소 설정  
+  ![도착지설정](https://github.com/Sang-minKIM/iDrop/assets/87116017/a06c356f-0a3d-441c-bdb0-0eb7bfea99e5) ![픽업신청](https://github.com/Sang-minKIM/iDrop/assets/87116017/3845c5a4-1075-4e2d-85cf-229ba59e84fd)  
+
+- 픽업 기사 검색 및 상세 정보 조회: 입력한 구독 정보를 토대로 픽업 기사 검색  
+  ![기사선택](https://github.com/Sang-minKIM/iDrop/assets/87116017/8f18c2ad-e278-4679-9911-e4aeace9aa5c)
+
+- 구독 신청 현황 관리: 아이 픽업 기록 탐색(픽업 인증 사진, 기사 정보, 구독 기간 보기)  
+
+### 2. 로그인 인증 및 사용자 권한 제어
+- JWT를 이용한 로그인 구현
+  - [로그인 개발 과정](https://velog.io/@sang-mini/React-%EB%A1%9C%EA%B7%B8%EC%9D%B8-%EC%96%B4%EB%96%BB%EA%B2%8C-%ED%95%98%EC%A7%80)  
+- RoleProvider 컴포넌트로 권한 제어가 필요한 Router를 감싸서 부모, 운전기사 구별
+  ```js
+    function RoleProvider({ children }) {
+      const role = useRouteLoaderData("auth");
+      return (
+        <>
+            {typeof children === "function"
+                ? children(role === "PARENT")
+                : children}
+        </>
+      );
+    }
+  ```
+  
+### 3. 웹 push 알림
+- FCM 및 서비스워커로 foreground & background push 알림 구현
+  ![푸시알림](https://github.com/Sang-minKIM/iDrop/assets/87116017/552c4ff7-5f69-4570-916a-283eb85107c5)
+- [푸시알림 구현 기록](https://velog.io/@sang-mini/%EC%9B%B9-%ED%91%B8%EC%8B%9C%EC%95%8C%EB%A6%BC-%EC%A0%81%EC%9A%A9%ED%95%98%EA%B8%B0with.FCM)
+
+### 4. websocket 초기 세팅 및 통신 테스트
+- websocket을 활용하여 실시간 위치 좌표 전송 및 수신, 백엔드와 연결
+
+### 5. 배포
+- firebase hosting으로 배포: FCM 설정을 이미 한 상태라서 빠르게 배포 가능
+    
+### 6. 코드 품질 향상
+- useModal, useCoords, useMarker 등의 커스텀 훅 구현으로 지도 사용 편리성을 증진
+- 재사용 할 수 잇는 modal 컴포넌트 및 훅 구현
+- 토큰 인증을 위한 util 함수를 만들어 권한 필요한 요청에 재사용
+
+## 💪🏻 김상민 담당 역할
+- 회의 진행 및 회의록 작성
+- 팀원 상황 파악 및 공유: 팀원 개발 현황 정리, 개발 범위 확정
+- Github Wiki 문서 관리
+  - 커스텀 사이드바를 설정해서 카테고리화
+  - 회고록 작성
+  - 개발한 부분에 대한 고민을 문서화해서 공유
+- 코드리뷰
+- UI 디자인
+
 ## 📹 시연 영상 (유튜브) 🎬
 ### 픽업 구독 요청하기
 [![Video Label](http://img.youtube.com/vi/D16UpcCU8S8/0.jpg)](https://youtu.be/D16UpcCU8S8)
